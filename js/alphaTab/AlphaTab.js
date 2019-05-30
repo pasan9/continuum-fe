@@ -5770,7 +5770,7 @@ alphaTab.rendering.layout.ScoreLayout.prototype = {
 	}
 	,RenderAnnotation: function() {
 		var _gthis = this;
-		var msg = "Rendered using alphaTab (https://www.alphaTab.net)";
+		var msg = "";
 		var canvas = this.Renderer.Canvas;
 		var resources = this.Renderer.Settings.RenderingResources;
 		var size = 12 * this.Renderer.Settings.Scale;

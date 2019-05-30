@@ -51,7 +51,6 @@
                 <label for="exampleFormControlSelect1">Select Tuning of the Guitar :</label>
                 <select class="form-control" id="tuning_type" name="tuning_type">
                     <option>Standard Tuning</option>
-                    <option>Drop D Tuning</option>
                 </select>
             </div>
             <div class="form-group">
@@ -143,11 +142,14 @@
                             console.log("SUCCESS : ", data);
 
                             $("#btnSubmit").prop("disabled", false);
+
                             displayArrangement(data.tab_string)
 
 
                         },
                         error: function (e) {
+
+                            $("#btnSubmit").prop("disabled", false);
 
                             $.LoadingOverlay("hide");
 
@@ -175,7 +177,9 @@
             $("#form-container").hide();
             $("#alphaTab-container").show();
             $("#alphaTab").html(tab_string);
-            $('#alphaTab').alphaTab()
+            $('#alphaTab').alphaTab({
+                staves: 'tab'
+            })
         }
 
         function validateForm(form) {
