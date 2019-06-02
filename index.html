@@ -91,9 +91,8 @@
         <button id="btnRedo" class="btn btn-primary">Arrange Another Song</button>
 
         <div id="player">
-            <button id="btnPlay" class="btn btn-primary">Play</button>
-            <button id="btnPlay" class="btn btn-primary">Pause</button>
-            <button id="btnPlay" class="btn btn-primary">Stop</button>
+            <button id="btnPlayPause" class="btn btn-primary">Play</button>
+            <button id="btnStop" class="btn btn-primary">Stop</button>
         </div>
 
         <div id="alphaTab" data-tex="true" data-player="js/alphaTab/default.sf2">
@@ -116,11 +115,8 @@
                 textResizeFactor: "0.18"
             });
 
-            //Player
-            $("#btnPlay").click(function () {
-                MIDIjs.play('data:audio/midi;base64,TVRoZAAAAAYAAAABAeBNVHJrAAADcgDAGQD/UQMPlu4A/1gEBAIYCACQPmQAQmQARWRwPmRJgD5AGZBAZIIggEBAXpA7ZGOAO0AdkDlkaYA5QB2QPGRWgD5AAEJAAEVAAJA1ZAA5ZAA8ZIMmgDVAADlAADxAAJA5ZAA8ZABAZDGAPECENZA2ZG6ANkBLkDdkgS6AN0BGkDlkb4A5QB6QPGSBJoA8QAOQPmSBLYA+QACQP2Q3gD9AAJBAZINngDlAADxAAEBAAJA+ZABCZABFZGeAQEAzkENkVoBDQG+QPmQxgD5AEpBAZEKAQEAIkD5kgmGAPkAAQkAARUAAkDVkADlkADxkSIA+QIEykD9kTIA/QACQQGR5gEBAdTVAADlAADxAAJA3ZAA7ZAA+ZINWPmQAgDdAADtAAD5AAJA8ZABAZABDZFaAPkAnkDxkR4A8QAOQPGSCUYA8QINDPEAAQEAAQ0AAkDVkADlkADxkgnY+ZC+APkAWkEBkS4BAQBuQPGSCL4A8QASQOmR8gDpABpA8ZDOANUAAOUAAPEAAkDxkAEBkAENkhRmAPEAMkD5kgTuAPkAAkD9kVIA/QACQQGRRgEBAAJBDZGOAPEAAQEAAQ0AAkDtkAD9kAEJkLYBDQACQRWSBK4BFQIE2kDlkGYA7QAA/QABCQACQNGQAOGQAO2QfgDlAIZA7ZIJjgDtAAzRAADhAADtAAJA5ZAA8ZABAZDs5ZIJBgDlAD5A7ZIEXgDtAAJA8ZIE2gDxABJA+ZIEHgD5AGpBAZIEtgEBAF5BEZDWAREAAkEVkgkaARUAAkERkaYBEQACQRWRSgEVAVDlAADxAAEBAAJA+ZABBZABFZCJBZHKAQUCEDpBFZFOARUAAkERkeoBEQGs+QABBQABFQACQOWQAPGQAQGQrQGSDBIBAQIFRkEdkgR+AOUAAPEAAQEAAkDdkADtkAD5kToBHQACQSGRogEhAAJBHZIFDgEdAgTs3QAA7QAA+QACQO2QAP2QAQmSENIA7QAA/QABCQACQNGQAOGQAO2RMP2RLgD9AAJBAZIJUgEBAAZA+ZDCAPkCBRpA7ZIIngDRAADhAADtAAJA1ZAA5ZAA8ZCqAO0AAkDxkhFSAPEAAkDtkeoA7QACQPGRRgDxAAJA7ZDSANUAAOUAAPEAAkDRkADhkADtkgiWAO0CBYDRAADhAADtAAP8vAA==');
-            });
-            
+
+
 
 
             $("#btnSubmit").click(function (event) {
@@ -162,6 +158,8 @@
 
                             $("#btnSubmit").prop("disabled", false);
 
+                            initializePlayer(data.midi_encoded)
+
                             displayArrangement(data.tab_string)
 
 
@@ -184,10 +182,10 @@
             });
 
             $("#btnRedo").click(function (event) {
-                $("#alphaTab-container").hide();
-                $('#preferance-form').trigger("reset");
-                $("#form-container").show();
-
+                // $("#alphaTab-container").hide();
+                // $('#preferance-form').trigger("reset");
+                // $("#form-container").show();
+                location.reload();
             });
 
         });
@@ -199,6 +197,34 @@
             $('#alphaTab').alphaTab({
                 staves: 'tab'
             })
+        }
+
+        function initializePlayer(encoded_midi_string) {
+            status='not-playing'
+            file_str = 'data:audio/midi;base64,'+encoded_midi_string
+            $("#btnPlayPause").click(function () {
+                if (status=='not-playing') {
+                    MIDIjs.play(file_str);
+                    status = 'playing'
+                    $("#btnPlayPause").html('Pause');
+                }
+                else if(status=='playing'){
+                    MIDIjs.pause()
+                    status = 'paused'
+                    $("#btnPlayPause").html('Play');
+                }
+                else if(status=='paused'){
+                    MIDIjs.resume()
+                    status = 'playing'
+                    $("#btnPlayPause").html('Pause');
+                }
+                
+            });
+            $("#btnStop").click(function () {
+                MIDIjs.stop()
+                status='not-playing'
+                $("#btnPlayPause").html('Play');
+            });
         }
 
         function validateForm(form) {
