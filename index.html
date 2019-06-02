@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- midi.js css -->
+    <link href="./css/MIDIPlayer.css" rel="stylesheet" type="text/css" />
     <!-- Jquery | Bootstrap | Fontawesome | LoadingJS- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
@@ -19,6 +21,9 @@
     <!-- AlphaTab JS-->
     <!-- Including alphaTab -->
     <script type="text/javascript" src="js/alphaTab/AlphaTab.js"></script>
+
+    <!-- MIDIJS -->
+    <script type="text/javascript" src="js/midiJS/midi.js"></script>
 
     <!-- Including alphaSynth -->
     <!-- <script type="text/javascript" src="js/swfobject.js"></script> -->
@@ -84,11 +89,20 @@
         style="padding-left: 4em;padding-right: 4em; display: none">
         Generated TABS :
         <button id="btnRedo" class="btn btn-primary">Arrange Another Song</button>
+
+        <div id="player">
+            <button id="btnPlay" class="btn btn-primary">Play</button>
+            <button id="btnPlay" class="btn btn-primary">Pause</button>
+            <button id="btnPlay" class="btn btn-primary">Stop</button>
+        </div>
+
         <div id="alphaTab" data-tex="true" data-player="js/alphaTab/default.sf2">
         </div>
     </div>
     <script>
         $(document).ready(function () {
+
+            midistr = MIDIjs.get_audio_status()
 
             //Config Loader
             $.LoadingOverlaySetup({
@@ -102,6 +116,11 @@
                 textResizeFactor: "0.18"
             });
 
+            //Player
+            $("#btnPlay").click(function () {
+                MIDIjs.play('data:audio/midi;base64,TVRoZAAAAAYAAAABAeBNVHJrAAADcgDAGQD/UQMPlu4A/1gEBAIYCACQPmQAQmQARWRwPmRJgD5AGZBAZIIggEBAXpA7ZGOAO0AdkDlkaYA5QB2QPGRWgD5AAEJAAEVAAJA1ZAA5ZAA8ZIMmgDVAADlAADxAAJA5ZAA8ZABAZDGAPECENZA2ZG6ANkBLkDdkgS6AN0BGkDlkb4A5QB6QPGSBJoA8QAOQPmSBLYA+QACQP2Q3gD9AAJBAZINngDlAADxAAEBAAJA+ZABCZABFZGeAQEAzkENkVoBDQG+QPmQxgD5AEpBAZEKAQEAIkD5kgmGAPkAAQkAARUAAkDVkADlkADxkSIA+QIEykD9kTIA/QACQQGR5gEBAdTVAADlAADxAAJA3ZAA7ZAA+ZINWPmQAgDdAADtAAD5AAJA8ZABAZABDZFaAPkAnkDxkR4A8QAOQPGSCUYA8QINDPEAAQEAAQ0AAkDVkADlkADxkgnY+ZC+APkAWkEBkS4BAQBuQPGSCL4A8QASQOmR8gDpABpA8ZDOANUAAOUAAPEAAkDxkAEBkAENkhRmAPEAMkD5kgTuAPkAAkD9kVIA/QACQQGRRgEBAAJBDZGOAPEAAQEAAQ0AAkDtkAD9kAEJkLYBDQACQRWSBK4BFQIE2kDlkGYA7QAA/QABCQACQNGQAOGQAO2QfgDlAIZA7ZIJjgDtAAzRAADhAADtAAJA5ZAA8ZABAZDs5ZIJBgDlAD5A7ZIEXgDtAAJA8ZIE2gDxABJA+ZIEHgD5AGpBAZIEtgEBAF5BEZDWAREAAkEVkgkaARUAAkERkaYBEQACQRWRSgEVAVDlAADxAAEBAAJA+ZABBZABFZCJBZHKAQUCEDpBFZFOARUAAkERkeoBEQGs+QABBQABFQACQOWQAPGQAQGQrQGSDBIBAQIFRkEdkgR+AOUAAPEAAQEAAkDdkADtkAD5kToBHQACQSGRogEhAAJBHZIFDgEdAgTs3QAA7QAA+QACQO2QAP2QAQmSENIA7QAA/QABCQACQNGQAOGQAO2RMP2RLgD9AAJBAZIJUgEBAAZA+ZDCAPkCBRpA7ZIIngDRAADhAADtAAJA1ZAA5ZAA8ZCqAO0AAkDxkhFSAPEAAkDtkeoA7QACQPGRRgDxAAJA7ZDSANUAAOUAAPEAAkDRkADhkADtkgiWAO0CBYDRAADhAADtAAP8vAA==');
+            });
+            
 
 
             $("#btnSubmit").click(function (event) {
