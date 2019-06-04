@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- midi.js css -->
     <link href="./css/MIDIPlayer.css" rel="stylesheet" type="text/css" />
     <!-- Jquery | Bootstrap | Fontawesome | LoadingJS- JS -->
@@ -82,22 +84,25 @@
                 <label for="exampleFormControlFile1">Attach the audio file (MP3 or WAV)</label>
                 <input type="file" class="form-control-file" id="file" name="file">
             </div>
-            <button type="submit" id="btnSubmit" class="btn btn-primary">Generate Tabs</button>
+            <button type="submit" id="btnSubmit" class="btn btn-outline-primary btn-lg btn-block">Generate Tabs</button>
         </form>
     </div>
     <div id="alphaTab-container" class="container justify-content-center align-items-center pr-4 pl-4"
         style="padding-left: 4em;padding-right: 4em; display: none">
-        Generated TABS :
-        <button id="btnRedo" class="btn btn-primary">Arrange Another Song</button>
+        <button id="btnRedo" class="btn btn-primary">
+            < Arrange Another Song</button> <div class="text-center">
+                <h2 class="display-4 mb-4">Arrangement</h2>
+                <button id="btnPlayPause" class="btn btn-primary"><i class="fa fa-play"></i></button>
+                <button id="btnStop" class="btn btn-primary"><i class="fa fa-stop"></i></button>
+                <div id="alphaTab" data-tex="true" data-player="js/alphaTab/default.sf2"></div>
 
-        <div id="player">
-            <button id="btnPlayPause" class="btn btn-primary">Play</button>
-            <button id="btnStop" class="btn btn-primary">Stop</button>
-        </div>
-
-        <div id="alphaTab" data-tex="true" data-player="js/alphaTab/default.sf2">
-        </div>
     </div>
+    </div>
+    <footer class="bd-footer text-muted">
+        <div class="container-fluid p-1 p-md-3 bg-light text-dark text-center">
+                © Continuum 2019
+        </div>
+    </footer>
     <script>
         $(document).ready(function () {
 
@@ -200,30 +205,30 @@
         }
 
         function initializePlayer(encoded_midi_string) {
-            status='not-playing'
-            file_str = 'data:audio/midi;base64,'+encoded_midi_string
+            status = 'not-playing'
+            file_str = 'data:audio/midi;base64,' + encoded_midi_string
             $("#btnPlayPause").click(function () {
-                if (status=='not-playing') {
+                if (status == 'not-playing') {
                     MIDIjs.play(file_str);
                     status = 'playing'
-                    $("#btnPlayPause").html('Pause');
+                    $("#btnPlayPause").html('<i class="fa fa-pause">');
                 }
-                else if(status=='playing'){
+                else if (status == 'playing') {
                     MIDIjs.pause()
                     status = 'paused'
-                    $("#btnPlayPause").html('Play');
+                    $("#btnPlayPause").html('<i class="fa fa-play">');
                 }
-                else if(status=='paused'){
+                else if (status == 'paused') {
                     MIDIjs.resume()
                     status = 'playing'
-                    $("#btnPlayPause").html('Pause');
+                    $("#btnPlayPause").html('<i class="fa fa-pause">');
                 }
-                
+
             });
             $("#btnStop").click(function () {
                 MIDIjs.stop()
-                status='not-playing'
-                $("#btnPlayPause").html('Play');
+                status = 'not-playing'
+                $("#btnPlayPause").html('<i class="fa fa-play">');
             });
         }
 
